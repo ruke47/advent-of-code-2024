@@ -2,6 +2,7 @@
 resolver = "2"
 
 members = [
+    "lib2d",
     "d01",
     "d02",
     "d03"
