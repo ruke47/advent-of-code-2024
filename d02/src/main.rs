@@ -27,8 +27,6 @@ fn is_safe(line: &[i32], skips: u32, log: bool) -> bool {
     let increasing = *first < remaining[0];
     let mut prior = first;
 
-
-
     for (idx, current) in remaining.iter().enumerate() {
         let (cur_min, cur_max) = get_bounds(*prior, increasing);
         if *current < cur_min || *current > cur_max {
