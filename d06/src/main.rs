@@ -20,10 +20,10 @@ fn main() {
 fn part1() {
     let (start_point, map) = load_map();
     let (looped, visited_points) = does_maze_loop(&start_point, &map, None);
-    if (looped) {
+    if looped {
         panic!("Part 1 looped, it shouldn't do that!");
     }
-    let distinct_points: HashSet<_> = visited_points.iter()
+    let distinct_points: HashSet<_> = visited_points.into_iter()
         .map(|(point, _)| point)
         .collect();
     println!("Part 1: {:?}", distinct_points.len());
@@ -31,10 +31,16 @@ fn part1() {
 
 fn part2() {
     let (start_point, map) = load_map();
+    let (_, vanilla_points) = does_maze_loop(&start_point, &map, None);
+    
+    // find just the points where we travel with no extra obstacles
+    let vanilla_points: HashSet<_> = vanilla_points.into_iter()
+        .map(|(point, _dir)| point)
+        .collect();
 
-    let loops = map.iter()
-        .filter(|(_, tile)| (*tile) == &Free)
-        .filter(|(point, _)| {
+    // only consider inserting an obstacle along the original path; other points won't do anything
+    let loops = vanilla_points.iter()
+        .filter(|point| {
             let (loops, _) = does_maze_loop(&start_point, &map, Some(*point));
             loops
         })
