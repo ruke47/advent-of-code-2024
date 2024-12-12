@@ -59,7 +59,9 @@ impl Drive {
             let first_space = self
                 .frees
                 .iter_mut()
-                .find(|space| space.block_size >= file.block_size);
+                .find(|space| {
+                    space.block_size >= file.block_size && space.drive_index < file.drive_index
+                });
             if let Some(space) = first_space {
                 // if we found a space big enough, move the file to where the space is
                 file.drive_index = space.drive_index;
