@@ -82,7 +82,8 @@ impl Drive {
             .iter()
             .map(|file| {
                 let mut sum = 0;
-                for i in (file.drive_index)..(file.drive_index + file.block_size) {
+                let this_file_end = file.drive_index + file.block_size;
+                for i in file.drive_index..this_file_end {
                     sum += file.block_id * i;
                 }
                 sum
