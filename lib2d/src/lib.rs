@@ -1,6 +1,6 @@
+use crate::Direction::*;
 use std::cmp::{max, min};
-use std::ops::{Add, Div, Mul, Sub};
-use crate::Direction::{*};
+use std::ops::{Add, Div, Mul, Rem, Sub};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]
 pub struct Point2d<T>
@@ -48,6 +48,26 @@ where T: Div<Output = T> + Copy {
 
     fn div(self, rhs: T) -> Self::Output {
         Self {x: self.x / rhs, y: self.y / rhs}
+    }
+}
+
+impl<T> Rem<Point2d<T>> for Point2d<T>
+where T: Rem<Output = T> + Copy + std::cmp::PartialOrd<i32> + std::ops::AddAssign {
+    type Output = Self;
+
+    fn rem(self, rhs: Point2d<T>) -> Self::Output {
+        let mut x = self.x % rhs.x;
+        let mut y = self.y % rhs.y;
+        
+        if x < 0 {
+            x += rhs.x;
+        }
+        
+        if y < 0 {
+            y += rhs.y;
+        }
+        
+        Self { x, y }
     }
 }
 
@@ -158,5 +178,16 @@ mod tests {
                 assert_eq!(bottom_right, Point2d::new(1000, 2222))
             }
         };
+    }
+    
+    #[test]
+    fn modulo() {
+        let a = Point2d::new(-1, 15);
+        let b = Point2d::new(3, 4);
+        let c = a % b;
+        
+        // I want modulo to always give a positive answer
+        assert_eq!(c.x, 2);
+        assert_eq!(c.y, 3);
     }
 }
