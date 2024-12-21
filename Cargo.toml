@@ -3,6 +3,7 @@ resolver = "2"
 
 members = [
     "lib2d",
+    "dEX",
     "d01",
     "d02",
     "d03",
@@ -19,5 +20,5 @@ members = [
     "d14",
     "d15",
     "d16",
-    "dEX"
+    "d17",
 ]
