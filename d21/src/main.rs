@@ -11,7 +11,7 @@ fn main() {
 }
 
 fn part1() {
-    let codes = load_codes("d21/example");
+    let codes = load_codes("d21/example1");
     let tenkey_paths = convert_codes(&codes, get_tenkey_path);
 
     print_paths(&codes, &tenkey_paths);
